@@ -1,0 +1,1034 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Jul 11 15:52:46 2019
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> drop table emp;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(EMPNO NUMBER(4) NOT NULL,
+  2          ENAME VARCHAR2(10),
+  3          JOB VARCHAR2(9),
+  4          MGR NUMBER(4),
+  5          HIREDATE DATE,
+  6          SAL NUMBER(7, 2),
+  7          COMM NUMBER(7, 2),
+  8          DEPTNO NUMBER(2));
+
+Table created.
+
+SQL>
+SQL> CREATE TABLE Designation_Master(
+  2  Design_Code NUMBER(3) PRIMARY KEY,
+  3  Design_Name VARCHAR2(50) UNIQUE);
+CREATE TABLE Designation_Master(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> drop table designation_master
+  2
+SQL> drop table Designation_Master;
+
+Table dropped.
+
+SQL> CREATE TABLE Designation_Master(
+  2  Design_Code NUMBER(3) PRIMARY KEY,
+  3  Design_Name VARCHAR2(50) UNIQUE);
+
+Table created.
+
+SQL> CREATE TABLE Department_Master(
+  2  Dept_code NUMBER(2) PRIMARY KEY,
+  3  Dept_Name VARCHAR2(50) UNIQUE);
+
+Table created.
+
+SQL> CREATE TABLE Student_Master(
+  2  Student_Code NUMBER(6) PRIMARY KEY,
+  3  Student_Name VARCHAR2(50) NOT NULL,
+  4  Dept_Code NUMBER(2) REFERENCES Department_Master(dept_code),
+  5  Student_Dob DATE,
+  6  Student_Address VARCHAR2(240));
+
+Table created.
+
+SQL> CREATE TABLE Student_Marks(
+  2  Student_Code NUMBER (6) REFERENCES student_Master(student_code),
+  3  Student_Year NUMBER not null,
+  4  Subject1 NUMBER (3),
+  5  Subject2 NUMBER (3),
+  6  Subject3 NUMBER (3));
+
+Table created.
+
+SQL> CREATE TABLE staff_Master(
+  2  Staff_Code number(8) PRIMARY KEY,
+  3  Staff_Name varchar2(50) NOT NULL,
+  4  Design_Code REFERENCES Designation_Master(design_code),
+  5  Dept_Code REFERENCES Department_Master(dept_code),
+  6  Staff_dob DATE,
+  7  Hiredate DATE,
+  8  Mgr_code NUMBER(8),
+  9  Staff_sal NUMBER (10,2),
+ 10  Staff_address VARCHAR2(240));
+
+Table created.
+
+SQL> CREATE TABLE Book_Master(
+  2  Book_code NUMBER(10) PRIMARY KEY,
+  3  Book_name VARCHAR2(50) NOT NULL,
+  4  Book_pub_year NUMBER,
+  5  Book_pub_author VARCHAR2 (50) NOT NULL);
+
+Table created.
+
+SQL>
+SQL> CREATE TABLE Book_transactions(
+  2  Book_code NUMBER(10) REFERENCES Book_Master(Book_code),
+  3  Student_code NUMBER(6) REFERENCES Student_Master(student_code),
+  4  Staff_code number(8) REFERENCES Staff_Master(staff_code),
+  5  Book_issue_Date date not null,
+  6  Book_expected_return_date date not null,
+  7  Book_actual_return_date date);
+
+Table created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7369, 'SMITH',  'CLERK',     7902,
+  3          TO_DATE('17-DEC-1980', 'DD-MON-YYYY'),  800, NULL, 20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7499, 'ALLEN',  'SALESMAN',  7698,
+  3          TO_DATE('20-FEB-1981', 'DD-MON-YYYY'), 1600,  300, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7521, 'WARD',   'SALESMAN',  7698,
+  3          TO_DATE('22-FEB-1981', 'DD-MON-YYYY'), 1250,  500, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7566, 'JONES',  'MANAGER',   7839,
+  3          TO_DATE('2-APR-1981', 'DD-MON-YYYY'),  2975, NULL, 20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7654, 'MARTIN', 'SALESMAN',  7698,
+  3          TO_DATE('28-SEP-1981', 'DD-MON-YYYY'), 1250, 1400, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7698, 'BLAKE',  'MANAGER',   7839,
+  3          TO_DATE('1-MAY-1981', 'DD-MON-YYYY'),  2850, NULL, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7782, 'CLARK',  'MANAGER',   7839,
+  3          TO_DATE('9-JUN-1981', 'DD-MON-YYYY'),  2450, NULL, 10);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7788, 'SCOTT',  'ANALYST',   7566,
+  3          TO_DATE('09-DEC-1982', 'DD-MON-YYYY'), 3000, NULL, 20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7839, 'KING',   'PRESIDENT', NULL,
+  3          TO_DATE('17-NOV-1981', 'DD-MON-YYYY'), 5000, NULL, 10);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7844, 'TURNER', 'SALESMAN',  7698,
+  3          TO_DATE('8-SEP-1981', 'DD-MON-YYYY'),  1500,    0, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7876, 'ADAMS',  'CLERK',     7788,
+  3          TO_DATE('12-JAN-1983', 'DD-MON-YYYY'), 1100, NULL, 20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7900, 'JAMES',  'CLERK',     7698,
+  3          TO_DATE('3-DEC-1981', 'DD-MON-YYYY'),   950, NULL, 30);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7902, 'FORD',   'ANALYST',   7566,
+  3          TO_DATE('3-DEC-1981', 'DD-MON-YYYY'),  3000, NULL, 20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES
+  2          (7934, 'MILLER', 'CLERK',     7782,
+  3          TO_DATE('23-JAN-1982', 'DD-MON-YYYY'), 1300, NULL, 10);
+
+1 row created.
+
+SQL> select *from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0
+        30
+
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+
+
+14 rows selected.
+
+SQL> set linesize 400;
+SQL>
+SQL> INSERT INTO designation_master VALUES(101,'HOD');
+
+1 row created.
+
+SQL> INSERT INTO designation_master VALUES(102,'Professor');
+
+1 row created.
+
+SQL> INSERT INTO designation_master VALUES(103,'Reader');
+
+1 row created.
+
+SQL> INSERT INTO designation_master VALUES(104,'Sr.Lecturer');
+
+1 row created.
+
+SQL> INSERT INTO designation_master VALUES(105,'Lecturer');
+
+1 row created.
+
+SQL> INSERT INTO designation_master VALUES(106,'Director');
+
+1 row created.
+
+SQL>
+SQL> select*from designation_master;
+
+DESIGN_CODE DESIGN_NAME
+----------- --------------------------------------------------
+        101 HOD
+        102 Professor
+        103 Reader
+        104 Sr.Lecturer
+        105 Lecturer
+        106 Director
+
+6 rows selected.
+
+SQL> INSERT INTO department_master VALUES(10,'Computer Science');
+
+1 row created.
+
+SQL> INSERT INTO department_master VALUES(20,'Electricals');
+
+1 row created.
+
+SQL> INSERT INTO department_master VALUES(30,'Electronics');
+
+1 row created.
+
+SQL> INSERT INTO department_master VALUES(40,'Mechanics');
+
+1 row created.
+
+SQL> INSERT INTO department_master VALUES(50,'Robotics');
+
+1 row created.
+
+SQL> select *from department_master;
+
+ DEPT_CODE DEPT_NAME
+---------- --------------------------------------------------
+        10 Computer Science
+        20 Electricals
+        30 Electronics
+        40 Mechanics
+        50 Robotics
+
+SQL>
+SQL> INSERT INTO student_master VALUES(1001,'Amit',10,'11-Jan-80','chennai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1002,'Ravi',10,'1-Nov-81','New Delhi');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1003,'Ajay',20,'13-Jan-82',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1004,'Raj',30,'14-Jan-79','Mumbai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1005,'Arvind',40,'15-Jan-83','Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1006,'Rahul',50,'16-Jan-81','Delhi');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1007,'Mehul',20,'17-Jan-82','Chennai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1008,'Dev',10,'11-Mar-81','Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1009,'Vijay',30,'19-Jan-80','Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1010,'Rajat',40,'20-Jan-80','Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1011,'Sunder',50,'21-Jan-80','Chennai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1012,'Rajesh', 30,'22-Jan-80',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1013,'Anil',20,'23-Jan-80','Chennai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1014,'Sunil',10,'15-Feb-85',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1015,'Kapil',40,'18-Mar-81','Mumbai');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1016,'Ashok',40,'26-Nov-80',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1017,'Ramesh',30,'27-Dec-80',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1018,'Amit Raj',50,'28-Sep-80','New Delhi');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1019,'Ravi Raj',50,'29-May-81','New Delhi');
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1020,'Amrit',10,'11-Nov-80',null);
+
+1 row created.
+
+SQL> INSERT INTO student_master VALUES(1021,'Sumit',20,'1-Jan-80','Chennai');
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> select *from student_master;
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE STUDENT_D STUDENT_ADDRESS
+------------ -------------------------------------------------- ---------- --------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        1001 Amit                                                       10 11-JAN-80 chennai
+        1002 Ravi                                                       10 01-NOV-81 New Delhi
+        1003 Ajay                                                       20 13-JAN-82
+        1004 Raj                                                        30 14-JAN-79 Mumbai
+        1005 Arvind                                                     40 15-JAN-83 Bangalore
+        1006 Rahul                                                      50 16-JAN-81 Delhi
+        1007 Mehul                                                      20 17-JAN-82 Chennai
+        1008 Dev                                                        10 11-MAR-81 Bangalore
+        1009 Vijay                                                      30 19-JAN-80 Bangalore
+        1010 Rajat                                                      40 20-JAN-80 Bangalore
+        1011 Sunder                                                     50 21-JAN-80 Chennai
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE STUDENT_D STUDENT_ADDRESS
+------------ -------------------------------------------------- ---------- --------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        1012 Rajesh                                                     30 22-JAN-80
+        1013 Anil                                                       20 23-JAN-80 Chennai
+        1014 Sunil                                                      10 15-FEB-85
+        1015 Kapil                                                      40 18-MAR-81 Mumbai
+        1016 Ashok                                                      40 26-NOV-80
+        1017 Ramesh                                                     30 27-DEC-80
+        1018 Amit Raj                                                   50 28-SEP-80 New Delhi
+        1019 Ravi Raj                                                   50 29-MAY-81 New Delhi
+        1020 Amrit                                                      10 11-NOV-80
+        1021 Sumit                                                      20 01-JAN-80 Chennai
+
+21 rows selected.
+
+SQL> INSERT INTO student_marks VALUES(1001,2010,55,45,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1002,2010,66,74,88);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1003,2010,87,54,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1004,2010,65,64,90);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1005,2010,78,88,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1006,2010,65,86,54);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1007,2010,67,79,49);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1008,2010,72,55,55);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1009,2010,71,59,58);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1010,2010,68,44,92);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1011,2010,89,96,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1012,2010,78,56,55);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1013,2010,75,58,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1014,2010,73,74,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1015,2010,66,45,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1016,2010,68,78,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1017,2010,69,44,52);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1018,2010,65,78,56);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1019,2010,78,58,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1020,2010,45,55,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1021,2010,78,79,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1001,2011,68,44,92);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1002,2011,89,96,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1003,2011,78,56,55);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1004,2011,75,58,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1005,2011,73,74,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1006,2011,66,45,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1007,2011,68,78,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1008,2011,69,44,52);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1009,2011,65,78,56);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1010,2011,78,58,74);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1011,2011,45,55,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1012,2011,78,79,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1013,2011,66,74,88);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1014,2011,65,64,90);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1015,2011,78,88,65);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1016,2011,65,86,54);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1017,2011,67,79,49);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1018,2011,72,55,55);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1019,2011,71,59,58);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1020,2011,55,45,78);
+
+1 row created.
+
+SQL> INSERT INTO student_marks VALUES(1021,2011,87,54,65);
+
+1 row created.
+
+SQL> select*from student_marks;
+
+STUDENT_CODE STUDENT_YEAR   SUBJECT1   SUBJECT2   SUBJECT3
+------------ ------------ ---------- ---------- ----------
+        1001         2010         55         45         78
+        1002         2010         66         74         88
+        1003         2010         87         54         65
+        1004         2010         65         64         90
+        1005         2010         78         88         65
+        1006         2010         65         86         54
+        1007         2010         67         79         49
+        1008         2010         72         55         55
+        1009         2010         71         59         58
+        1010         2010         68         44         92
+        1011         2010         89         96         78
+
+STUDENT_CODE STUDENT_YEAR   SUBJECT1   SUBJECT2   SUBJECT3
+------------ ------------ ---------- ---------- ----------
+        1012         2010         78         56         55
+        1013         2010         75         58         65
+        1014         2010         73         74         65
+        1015         2010         66         45         74
+        1016         2010         68         78         74
+        1017         2010         69         44         52
+        1018         2010         65         78         56
+        1019         2010         78         58         74
+        1020         2010         45         55         65
+        1021         2010         78         79         78
+        1001         2011         68         44         92
+
+STUDENT_CODE STUDENT_YEAR   SUBJECT1   SUBJECT2   SUBJECT3
+------------ ------------ ---------- ---------- ----------
+        1002         2011         89         96         78
+        1003         2011         78         56         55
+        1004         2011         75         58         65
+        1005         2011         73         74         65
+        1006         2011         66         45         74
+        1007         2011         68         78         74
+        1008         2011         69         44         52
+        1009         2011         65         78         56
+        1010         2011         78         58         74
+        1011         2011         45         55         65
+        1012         2011         78         79         78
+
+STUDENT_CODE STUDENT_YEAR   SUBJECT1   SUBJECT2   SUBJECT3
+------------ ------------ ---------- ---------- ----------
+        1013         2011         66         74         88
+        1014         2011         65         64         90
+        1015         2011         78         88         65
+        1016         2011         65         86         54
+        1017         2011         67         79         49
+        1018         2011         72         55         55
+        1019         2011         71         59         58
+        1020         2011         55         45         78
+        1021         2011         87         54         65
+
+42 rows selected.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100001,'Arvind',102,30,'15-Jan-80','15-Jan-03',100006,17000,'Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100002,'Shyam',102,20,'18-Feb-80','17-Feb-02',100007,20000,'Chennai');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100003,'Mohan',102,10,'23-Mar-80','19-Jan-02',100006,24000,'Mumbai');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100004,'Anil',102,20,'22-Apr-77','11-Mar-01',100006,20000,'Hyderabad');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100005,'John',106,10,'22-May-76','21-Jan-01',100007,32000,'Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100006,'Allen',103,30,'22-Jan-80','23-Apr-01',100005,42000,'Chennai');
+
+1 row created.
+
+SQL>
+SQL>
+SQL> INSERT INTO staff_master
+  2  VALUES(100007,'Smith',103,20,'19-Jul-73','12-Mar-02',100005,62000,'Mumbai');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100008,'Raviraj',102,40,'17-Jun-80','11-Jan-03',100006,18000,'Bangalore');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100009,'Rahul',102,20,'16-Jan-78','11-Dec-03',100006,22000,'Hyderabad');
+
+1 row created.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100010,'Ram',103,30,'17-Jan-79','17-Jan-02',100007,32000,'Bangalore');
+
+1 row created.
+
+SQL> select*from staff_master;
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL STAFF_ADDRESS
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    100001 Arvind                                                     102         30 15-JAN-80 15-JAN-03     100006
+ 17000 Bangalore
+    100002 Shyam                                                      102         20 18-FEB-80 17-FEB-02     100007
+ 20000 Chennai
+    100003 Mohan                                                      102         10 23-MAR-80 19-JAN-02     100006
+ 24000 Mumbai
+    100004 Anil                                                       102         20 22-APR-77 11-MAR-01     100006
+ 20000 Hyderabad
+    100005 John                                                       106         10 22-MAY-76 21-JAN-01     100007
+ 32000 Bangalore
+    100006 Allen                                                      103         30 22-JAN-80 23-APR-01     100005
+ 42000 Chennai
+    100007 Smith                                                      103         20 19-JUL-73 12-MAR-02     100005
+ 62000 Mumbai
+    100008 Raviraj                                                    102         40 17-JUN-80 11-JAN-03     100006
+ 18000 Bangalore
+    100009 Rahul                                                      102         20 16-JAN-78 11-DEC-03     100006
+ 22000 Hyderabad
+    100010 Ram                                                        103         30 17-JAN-79 17-JAN-02     100007
+ 32000 Bangalore
+
+10 rows selected.
+
+SQL> INSERT INTO book_master VALUES(10000001,'Let Us C++',2000,'Yashavant Kanetkar');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000002,'Mastersing VC++',2005,'P.J Allen');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000003,'JAVA Complete Reference',2004,'H.Schild');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000004,'J2EE Complete Reference',2000,'H. Schild');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000005,'Relational DBMS',2000,'B.C. Desai');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000006,'Let Us C',2000, 'Yashavant Kanetkar');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000007,'Intoduction To Algorithams',2001,'Cormen');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000008,'Computer Networks',2000,'Tanenbaum');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_master VALUES(10000009,'Introduction to O/S',2001,'Millan');
+
+1 row created.
+
+SQL>
+SQL> --Book Transactions
+SQL> DROP TABLE BOOK_TRANSACTIONS;
+
+Table dropped.
+
+SQL> CREATE TABLE Book_transactions(
+  2  Book_code NUMBER(10) REFERENCES Book_Master(Book_code),
+  3  Student_code NUMBER(6) REFERENCES Student_Master(student_code),
+  4  Staff_code number(8) REFERENCES Staff_Master(staff_code),
+  5  Book_issue_Date date not null,
+  6  Book_expected_return_date date not null,
+  7  Book_actual_return_date date);
+
+Table created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000006,1012,NULL,'02-Feb-2011','09-Feb-2011',NULL);
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000008,NULL,100006,'10-Mar-2011','17-Mar-2011','15-Mar-2011');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000009,NULL,100010,'01-Apr-2011','08-Apr-2011','10-Apr-2011');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000004,1015,NULL,'12-Feb-2011','19-Feb-2011',NULL);
+
+1 row created.
+
+SQL>
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000005,NULL,100007,'14-Mar-2011','21-Mar-2011','21-Mar-2011');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000007,NULL,100007,'01-Apr-2011','07-Apr-2011','06-Apr-2011');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000007,NULL,100006,'01-Apr-2010','07-Apr-2010','06-Apr-2010');
+
+1 row created.
+
+SQL> INSERT INTO book_transactions
+  2  VALUES(10000005,1009,NULL,'31-May-2011','08-JUN-2011','08-JUN-2011');
+
+1 row created.
+
+SQL> select*book_transactions;
+select*book_transactions
+       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select* from book_transactions;
+
+ BOOK_CODE STUDENT_CODE STAFF_CODE BOOK_ISSU BOOK_EXPE BOOK_ACTU
+---------- ------------ ---------- --------- --------- ---------
+  10000006         1012            02-FEB-11 09-FEB-11
+  10000008                  100006 10-MAR-11 17-MAR-11 15-MAR-11
+  10000009                  100010 01-APR-11 08-APR-11 10-APR-11
+  10000004         1015            12-FEB-11 19-FEB-11
+  10000005                  100007 14-MAR-11 21-MAR-11 21-MAR-11
+  10000007                  100007 01-APR-11 07-APR-11 06-APR-11
+  10000007                  100006 01-APR-10 07-APR-10 06-APR-10
+  10000005         1009            31-MAY-11 08-JUN-11 08-JUN-11
+
+8 rows selected.
+
+SQL>
+SQL> select * from Staff_Master;
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL STAFF_ADDRESS
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    100001 Arvind                                                     102
+  30 15-JAN-80 15-JAN-03     100006      17000 Bangalore
+    100002 Shyam                                                      102
+  20 18-FEB-80 17-FEB-02     100007      20000 Chennai
+    100003 Mohan                                                      102
+  10 23-MAR-80 19-JAN-02     100006      24000 Mumbai
+    100004 Anil                                                       102
+  20 22-APR-77 11-MAR-01     100006      20000 Hyderabad
+    100005 John                                                       106
+  10 22-MAY-76 21-JAN-01     100007      32000 Bangalore
+    100006 Allen                                                      103
+  30 22-JAN-80 23-APR-01     100005      42000 Chennai
+    100007 Smith                                                      103
+  20 19-JUL-73 12-MAR-02     100005      62000 Mumbai
+    100008 Raviraj                                                    102
+  40 17-JUN-80 11-JAN-03     100006      18000 Bangalore
+    100009 Rahul                                                      102
+  20 16-JAN-78 11-DEC-03     100006      22000 Hyderabad
+    100010 Ram                                                        103
+  30 17-JAN-79 17-JAN-02     100007      32000 Bangalore
+
+10 rows selected.
+
+SQL> select Staff_Name,Design_Code from Staff_Master where HireDate<'01-jan-2003';
+
+STAFF_NAME                                         DESIGN_CODE
+-------------------------------------------------- -----------
+Shyam                                                      102
+Mohan                                                      102
+Anil                                                       102
+John                                                       106
+Allen                                                      103
+Smith                                                      103
+Ram                                                        103
+
+7 rows selected.
+
+SQL> select Staff_Name,Design_Code from Staff_Master where HireDate<'01-jan-2003' and Staff_Sal between 12000 and 25000;
+
+STAFF_NAME                                         DESIGN_CODE
+-------------------------------------------------- -----------
+Shyam                                                      102
+Mohan                                                      102
+Anil                                                       102
+
+SQL> select Staff_Name as Name,Design_Code as DesignationCode from Staff_Master where HireDate<'01-jan-2003' and Staff_Sal between 12000 and 25000;
+
+NAME                                               DESIGNATIONCODE
+-------------------------------------------------- ---------------
+Shyam                                                          102
+Mohan                                                          102
+Anil                                                           102
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,'11-Jul-2019');
+select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,'11-Jul-2019')
+                                                                                                   *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,2019);
+select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,2019)
+                                                                                          *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,Hiredate,getdate());
+select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,Hiredate,getdate())
+                                                                                               *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where hiredate>2001;
+select Staff_code,Staff_Name,Dept_Code from Staff_Master where hiredate>2001
+                                                                       *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER
+
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where hiredate>'01-jan-2001';
+
+STAFF_CODE STAFF_NAME                                          DEPT_CODE
+---------- -------------------------------------------------- ----------
+    100001 Arvind                                                     30
+    100002 Shyam                                                      20
+    100003 Mohan                                                      10
+    100004 Anil                                                       20
+    100005 John                                                       10
+    100006 Allen                                                      30
+    100007 Smith                                                      20
+    100008 Raviraj                                                    40
+    100009 Rahul                                                      20
+    100010 Ram                                                        30
+
+10 rows selected.
+
+SQL> select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,'11-Jul-2019')order by;
+select Staff_code,Staff_Name,Dept_Code from Staff_Master where datediff(year,hiredate,'11-Jul-2019')order by
+                                                                                                    *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> select datediff(year,Hiredate,getdate()) as experience from Staff_Master;
+select datediff(year,Hiredate,getdate()) as experience from Staff_Master
+       *
+ERROR at line 1:
+ORA-00904: "DATEDIFF": invalid identifier
+
+
+SQL> select DATEDIFF(year,Hiredate,getdate()) as experience from Staff_Master;
+select DATEDIFF(year,Hiredate,getdate()) as experience from Staff_Master
+       *
+ERROR at line 1:
+ORA-00904: "DATEDIFF": invalid identifier
+
+
+SQL> select datediff(sysdate(),Hiredate)/365 as exp from Staff_Master;
+select datediff(sysdate(),Hiredate)/365 as exp from Staff_Master
+                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select datediff(sysdate,Hiredate)/365 as exp from Staff_Master;
+select datediff(sysdate,Hiredate)/365 as exp from Staff_Master
+       *
+ERROR at line 1:
+ORA-00904: "DATEDIFF": invalid identifier
+
+
+SQL> select datediff(sysdate,Hiredate/365) as exp from Staff_Master;
+select datediff(sysdate,Hiredate/365) as exp from Staff_Master
+       *
+ERROR at line 1:
+ORA-00904: "DATEDIFF": invalid identifier
+
+
+SQL> select datediff(year,sysdate,Hiredate)/365 as exp from Staff_Master;
+select datediff(year,sysdate,Hiredate)/365 as exp from Staff_Master
+       *
+ERROR at line 1:
+ORA-00904: "DATEDIFF": invalid identifier
+
+
+SQL> select convert(varchar2(4),datediff
